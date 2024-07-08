@@ -6,6 +6,7 @@ from Cliente import Cliente
 from Usuario import Usuario
 from Area import Area
 from Criticidad import Criticidad
+from Estado import Estado
 from Tipo import Tipo
 
 class DAO:
@@ -19,14 +20,6 @@ class DAO:
     def cerrar(self):
         self.__conexion.commit()
         self.__conexion.close()
-
-    def buscarAreaPorNombre(self, nombreArea):
-        self.conectar()
-        sql_select_area = "SELECT ID_Area FROM area WHERE Nombre_Area = %s"
-        values_select_cliente = (nombreArea,)
-        self.__cursor.execute(sql_select_area, values_select_cliente)
-        print(self.__cursor.execute(sql_select_area, values_select_cliente))
-        self.cerrar()
 
     def registrarTique(self, tique: Tique, cliente: Cliente):
         self.conectar()
@@ -64,7 +57,6 @@ class DAO:
             tique.get_criticidad_id(),
             tique.get_estado_id(),
         )
-        print(values_insert_tique)
         self.__cursor.execute(sql_insert_tique, values_insert_tique)
 
         self.cerrar()
@@ -72,23 +64,40 @@ class DAO:
 
     def obtenerTiques(self):
         self.conectar()
-        sql = "SELECT * FROM tique"
-        self.__cursor.execute(sql)
-        resultados = self.__cursor.fetchall()
+        sql_tiques = "SELECT * FROM tique"
+        self.__cursor.execute(sql_tiques)
+        resultados_tiques = self.__cursor.fetchall()
         tiques = []
 
-        for registro in resultados:
+        for registro_tique in resultados_tiques:
             tique = Tique(
-                id_tique=registro[0],
-                detalle_servicio=registro[1],
-                fecha_creacion=registro[2],
-                detalle_problema=registro[3],
-                area_id=registro[4],
-                tipo_id=registro[5],
-                criticidad_id=registro[6],
-                cliente_id=registro[7],
-                estado_id=registro[8],
+                id_tique=registro_tique[0],
+                detalle_servicio=registro_tique[1],
+                fecha_creacion=registro_tique[2],
+                detalle_problema=registro_tique[3],
+                area_id=registro_tique[4],
+                tipo_id=registro_tique[5],
+                criticidad_id=registro_tique[6],
+                cliente_id=registro_tique[7],
+                estado_id=registro_tique[8],
             )
+
+            # Consulta para obtener los datos del cliente asociado al tique
+            sql_cliente = "SELECT * FROM cliente WHERE id_cliente = %s"
+            self.__cursor.execute(sql_cliente, (tique.cliente_id,))
+            resultado_cliente = self.__cursor.fetchone()
+
+            if resultado_cliente:
+                cliente = Cliente(
+                    id_cliente=resultado_cliente[0],
+                    nombre_cliente=resultado_cliente[1],
+                    telefono=resultado_cliente[2],
+                    correo_electronico=resultado_cliente[3],
+                    rut=resultado_cliente[4],  # Asegúrate de obtener el valor del campo 'rut' del cliente
+                    usuario_id=resultado_cliente[5],  # Asegúrate de obtener el valor del campo 'usuario_id' del cliente
+                )
+                tique.cliente = cliente
+
             tiques.append(tique)
 
         self.cerrar()
@@ -120,6 +129,23 @@ class DAO:
             )
             return tique
         return None
+
+    def eliminarTique(self, id_tique):
+        self.conectar()
+        try:
+            # Crear la consulta para eliminar el tique con el ID proporcionado
+            query = "DELETE FROM tique WHERE id_tique = %s"
+            self.__cursor.execute(query, (id_tique,))
+            self.__conexion.commit()
+            print("Tique eliminado exitosamente.")
+        except mysql.connector.Error as err:
+            print(f"Error al eliminar el tique: {err}")
+            # Si ocurre un error, es mejor hacer rollback para deshacer cambios no deseados
+            self.__conexion.rollback()
+        else:
+            print("Operación exitosa.")
+        finally:
+            self.cerrar()
 
     def actualizarTique(self, tique: Tique):
         self.conectar()
@@ -204,7 +230,6 @@ class DAO:
             return resultado[0]
         else:
             return None
-
     def obtenerNombreCriticidad(self, id_criticidad: int) -> str:
         self.conectar()
         sql = "SELECT Nombre_Criticidad FROM criticidad WHERE ID_Criticidad = %s"
@@ -213,7 +238,9 @@ class DAO:
         nombre_criticidad = self.__cursor.fetchone()
         self.cerrar()
         return nombre_criticidad[0] if nombre_criticidad else "Desconocida"
-    
+
+
+
     def obtenerCriticidades(self):
         self.conectar()
 
@@ -247,6 +274,8 @@ class DAO:
 
         return tipos
     
+    
+    
     def obtenerTiquesPorRutCliente(self, rut):
         self.conectar()
         # Implementa la consulta SQL para obtener los tiques del cliente con el RUT especificado
@@ -271,22 +300,109 @@ class DAO:
         self.cerrar()
         return lista_tiques
 
-    def eliminarTique(self, id_tique):
+    def crearArea(self, nombre_area: str):
         self.conectar()
-        try:
-            # Crear la consulta para eliminar el tique con el ID proporcionado
-            query = "DELETE FROM tique WHERE id_tique = %s"
-            self.__cursor.execute(query, (id_tique,))
-            self.__conexion.commit()
-            print("Tique eliminado exitosamente.")
-        except mysql.connector.Error as err:
-            print(f"Error al eliminar el tique: {err}")
-            # Si ocurre un error, es mejor hacer rollback para deshacer cambios no deseados
-            self.__conexion.rollback()
-        else:
-            print("Operación exitosa.")
-        finally:
-            # Cerrar el cursor y la conexión
-            self.__cursor.close()
-            self.__conexion.close()
+
+        # Verificar si el área ya existe en la base de datos
+        sql_select_area = "SELECT ID_Area FROM area WHERE Nombre_Area = %s"
+        values_select_area = (nombre_area,)
+        self.__cursor.execute(sql_select_area, values_select_area)
+        resultado_area = self.__cursor.fetchone()
+
+        if resultado_area:
+            # Si el área ya existe, mostrar un mensaje de error y detener el proceso de creación
+            print("El área ya existe en la base de datos.")
+            self.cerrar()
+            return
+
+        # Si el área no existe, procedemos a crearla
+        sql_insert_area = "INSERT INTO area (Nombre_Area) VALUES (%s)"
+        values_insert_area = (nombre_area,)
+        self.__cursor.execute(sql_insert_area, values_insert_area)
+
+        # Obtenemos el ID del área recién creada
+        area_id = self.__cursor.lastrowid
+
+        # Creamos un objeto de la clase Area con la información del área creada
+        nueva_area = Area(area_id, nombre_area)
+
         self.cerrar()
+        return nueva_area
+    
+    
+    def obtenerAreas(self):
+        self.conectar()
+
+        query = "SELECT ID_Area, Nombre_Area FROM area"
+        self.__cursor.execute(query)
+        areas = [Area(id_area=row[0], nombre_area=row[1]) for row in self.__cursor.fetchall()]
+
+        self.cerrar()
+
+        return areas
+
+
+    def crearTipoTique(self, nombre_tipo: str):
+        self.conectar()
+
+        # Verificar si el tipo de tique ya existe en la base de datos
+        sql_select_tipo = "SELECT ID_Tipo FROM tipo WHERE Nombre_Tipo = %s"
+        values_select_tipo = (nombre_tipo,)
+        self.__cursor.execute(sql_select_tipo, values_select_tipo)
+        resultado_tipo = self.__cursor.fetchone()
+
+        if resultado_tipo:
+            # Si el tipo de tique ya existe, mostrar un mensaje de error y detener el proceso de creación
+            print("El tipo de tique ya existe en la base de datos.")
+            self.cerrar()
+            return
+
+        # Si el tipo de tique no existe, procedemos a crearlo
+        sql_insert_tipo = "INSERT INTO tipo (Nombre_Tipo) VALUES (%s)"
+        values_insert_tipo = (nombre_tipo,)
+        self.__cursor.execute(sql_insert_tipo, values_insert_tipo)
+
+        # Obtenemos el ID del tipo de tique recién creado
+        id_tipo = self.__cursor.lastrowid
+
+        # Creamos un objeto de la clase TipoTique con la información del tipo de tique creado
+        nuevo_tipo = Tipo(id_tipo, nombre_tipo)
+
+        self.cerrar()
+        return nuevo_tipo
+
+
+
+    def crearCriticidad(self, nombre_criticidad: str):
+        self.conectar()
+
+        # Verificar si la criticidad ya existe en la base de datos
+        sql_select_criticidad = "SELECT ID_Criticidad FROM criticidad WHERE Nombre_Criticidad = %s"
+        values_select_criticidad = (nombre_criticidad,)
+        self.__cursor.execute(sql_select_criticidad, values_select_criticidad)
+        resultado_criticidad = self.__cursor.fetchone()
+
+        if resultado_criticidad:
+            # Si la criticidad ya existe, mostrar un mensaje de error y detener el proceso de creación
+            print("La criticidad ya existe en la base de datos.")
+            self.cerrar()
+            return
+
+        # Si la criticidad no existe, procedemos a crearla
+        sql_insert_criticidad = "INSERT INTO criticidad (Nombre_Criticidad) VALUES (%s)"
+        values_insert_criticidad = (nombre_criticidad,)
+        self.__cursor.execute(sql_insert_criticidad, values_insert_criticidad)
+
+        # Obtenemos el ID de la criticidad recién creada
+        criticidad_id = self.__cursor.lastrowid
+
+        # Creamos un objeto de la clase Criticidad con la información de la criticidad creada
+        nueva_criticidad = Criticidad(criticidad_id, nombre_criticidad)
+
+        self.cerrar()
+        return nueva_criticidad
+
+
+    
+        
+        

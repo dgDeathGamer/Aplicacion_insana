@@ -61,15 +61,8 @@ CREATE TABLE `cliente` (
 --
 
 INSERT INTO `cliente` (`ID_Cliente`, `Nombre_Cliente`, `Rut`, `Correo_Electronico`, `Telefono`, `usuario_ID_Usuario`) VALUES
-(2, 'a', '2', 'a', '2', NULL),
-(3, 'b', '3', 'b', '3', NULL),
-(4, 'a', '4', 'a', '4', NULL),
-(5, 'a', '5', 'a', '4', NULL),
-(6, 'aa', '11', 'aa11', '11', NULL),
-(7, '', '', '', '', NULL),
-(8, 'awebo', '13', 'dlsak', '11', NULL),
-(9, 'awebo', '123', 'awebo2', '12345', NULL),
-(10, 'queso', '1122', 'queso', '112233d', NULL);
+(2, 'ojo', '123', 'ojito', '12345', NULL),
+(3, 'queso', '1122', 'queso', '112233d', NULL);
 
 -- --------------------------------------------------------
 
@@ -175,29 +168,7 @@ CREATE TABLE `tique` (
 --
 
 INSERT INTO `tique` (`ID_Tique`, `Detalle_Servicio`, `Fecha_Creacion`, `Detalle_Problema`, `area_ID_Area1`, `tipo_ID_Tipo1`, `criticidad_ID_Criticidad`, `cliente_ID_Cliente`, `estado_ID_Estado`) VALUES
-(2, 'a', '0000-00-00', '', 2, 3, 2, 2, 1),
-(3, 'a', '0000-00-00', '', 2, 3, 2, 2, 1),
-(4, 'b', '0000-00-00', '', 2, 3, 2, 3, 1),
-(5, 'aa', '0000-00-00', '', 2, 3, 2, 4, 1),
-(6, 'a', '0000-00-00', 'a', 2, 3, 2, 5, 1),
-(7, 'aaaa', '0000-00-00', 'aaa', 1, 3, 2, 6, 1),
-(8, '', '0000-00-00', '', 2, 3, 2, 7, 1),
-(9, '', '0000-00-00', '', 3, 3, 2, 7, 1),
-(10, '', '0000-00-00', '\n', 3, 4, 3, 8, 1),
-(11, 'aaaa', '0000-00-00', 'aaaa\n', 1, 1, 1, 9, 1),
-(12, '', '0000-00-00', '\n', 3, 2, 3, 7, 1),
-(13, '', '0000-00-00', '\n', 1, 2, 2, 7, 1),
-(14, '', '0000-00-00', '\n', 1, 1, 1, 7, 1),
-(15, '', '0000-00-00', '\n', 3, 2, 2, 7, 1),
-(16, '', '0000-00-00', '\n', 2, 1, 2, 7, 1),
-(17, '', '0000-00-00', '\n', 1, 1, 2, 7, 1),
-(18, '', '0000-00-00', '\n', 2, 2, 3, 7, 1),
-(19, '', '0000-00-00', '\n', 2, 1, 2, 7, 1),
-(20, '', '2023-07-19', '\n', 3, 1, 2, 7, 1),
-(21, '', '2023-07-20', '\n', 2, 2, 1, 7, 1),
-(22, '', '2023-07-20', '\n', 2, 3, 3, 7, 1),
-(23, 'a', '2023-07-20', 'a\n', 1, 1, 2, 2, 1),
-(24, 'asdasd', '2023-07-20', 'dasoidjlkfsads\n', 2, 4, 2, 10, 1);
+(2, 'detallesniti2', '0000-00-00', 'es el dia del platano y no hay platano', 2, 3, 2, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -217,11 +188,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`ID_Usuario`, `Nombre_Usuario`, `Contrasenia`, `rol_ID_Rol`) VALUES
-(2, 'amongus', 'pene', 1),
-(3, 'Amongus2', 'sexoo', 2),
-(4, 'Amongus3', 'sexodoble', 3),
-(5, 'amongusenorme', 'enorme', 1),
-(6, 'Amongus', 'pelela', 1),
+(2, 'Gerard', '123', 1),
 (7, 'admin', 'admin', 1);
 
 --

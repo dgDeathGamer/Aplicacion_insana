@@ -5,10 +5,6 @@ from Tique import Tique
 from Cliente import Cliente
 from datetime import date
 from tkinter import messagebox
-from Area import Area
-from Criticidad import Criticidad
-from Estado import Estado
-from Tipo import Tipo
 
 class RegistrarTiqueApp:
     def __init__(self, root):
@@ -26,7 +22,6 @@ class RegistrarTiqueApp:
 
         self.dao = DAO()
         self.tiques_encontrados = []  # Variable para almacenar los tiques encontrados por RUT
-        print(self.tiques_encontrados)
 
         # Crear un Frame para contener los campos y botón de registro
         frame = ttk.Frame(root)
@@ -92,7 +87,7 @@ class RegistrarTiqueApp:
         # Agregar trace para actualizar los IDs seleccionados
         self.area_var.trace_add("write", self.actualizar_id_area)
         self.criticidad_var.trace_add("write", self.actualizar_id_criticidad)
-        self.tipo_var.trace_add("write", self.actualizar_id_tipo)
+        self.tipo_var.trace_add("write", self.actualizar_id_tipo_tique)
 
         # Botón para registrar el tique
         tk.Button(frame, text="Registrar Tique", command=self.registrar_tique).grid(row=9, column=0, columnspan=4, padx=10, pady=10, sticky="ew")
@@ -112,71 +107,52 @@ class RegistrarTiqueApp:
         # Configurar el evento para mostrar el tique seleccionado cuando se haga clic en un elemento del treeview
         self.treeview.bind("<ButtonRelease-1>", self.mostrar_tique_seleccionado)
 
-        # Botón para obtener la lista de tiques
-        tk.Button(frame, text="Obtener Tiques", command=self.obtener_tiques).grid(row=10, column=0, columnspan=4, padx=10, pady=10, sticky="ew")
 
-        # Botón para eliminar tique seleccionado
-        tk.Button(frame, text="Eliminar Tique", command=self.eliminar_tique).grid(row=12, column=0, padx=5, pady=5)
-
-    def actualizar_id_criticidad(self, *args):
-        selected_criticidad = self.criticidad_var.get()
-    
-        # Si la criticidad seleccionada no es la opcion predeterminada, buscamos el objeto criticidad correspondiente en la lista de criticidades
-        if selected_criticidad != "Selecciona una criticidad":
-            dao = DAO()
-            criticidades = dao.obtenerCriticidades()
-            
-            #Buscamos el objeto Criticidad que corresponde al nombre seleccionado
-            for criticidad in criticidades:
-                if selected_criticidad ==criticidad.nombre_criticidad:
-                    #Cuando encontramos el objeto Criticidad con el nombre seleccionado, establecemos su ID en self.criticidad_id
-                    self.id_criticidad_seleccionada = criticidad.id_criticidad
-                    break
-        else:
-            #Si se selecciona la opción predeterminada, establecemos el id de la criticidad como None
-            self.id_criticidad_seleccionada = None
-            
-        print("ID de Criticidad seleccionada:", self.id_criticidad_seleccionada)
+        self.obtener_tiques() 
 
     def actualizar_id_area(self, *args):
         selected_area = self.area_var.get()
-
-        # Si el área seleccionada no es la opción predeterminada, buscamos el objeto Area correspondiente en la lista de áreas
-        if selected_area != "Selecciona un Área":
-            dao = DAO()
-            areas = dao.obtenerAreas()
-
-            # Buscamos el objeto Area que corresponde al nombre seleccionado
-            for area in areas:
-                if selected_area == area.nombre_area:
-                    # Cuando encontramos el objeto Area con el nombre seleccionado, establecemos su ID en self.area_id
-                    self.id_area_seleccionada = area.id_area
-                    break
+        # Actualizar el ID del área seleccionada
+        if selected_area == "Area 1":
+            self.id_area_seleccionada = 1
+        elif selected_area == "Area 2":
+            self.id_area_seleccionada = 2
+        elif selected_area == "Area 3":
+            self.id_area_seleccionada = 3
         else:
-            # Si se selecciona la opción predeterminada, establecemos el ID del área como None
-            self.id_area_seleccionada = None
+            self.id_area_seleccionada = None  # Opcional: Manejar el caso de "Selecciona una Area"
 
-        print("ID de Área seleccionada:", self.id_area_seleccionada)
+        print("ID del área seleccionada:", self.id_area_seleccionada)
 
-    def actualizar_id_tipo(self, *args):
-        selected_tipo = self.tipo_var.get()
-        
-        # Si el tipo seleccionada no es la opción predeterminada, buscamos el objeto Tipo correspondiente en la lista de tipos
-        if selected_tipo != "Selecciona un Tipo de Tique":
-            dao = DAO()
-            tipos = dao.obtenerTipos()
-            
-            #Buscamos el objeto Tipo que corresponde al nombre seleccionado
-            for tipo in tipos:
-                if selected_tipo == tipo.nombre_tipo:
-                    # Cuando encontramos el objeto Tipo con el nombre seleccionado, establecemos su ID en self.tipo_id
-                    self.id_tipo_tique_seleccionado = tipo.id_tipo
-                    break
+    def actualizar_id_criticidad(self, *args):
+        selected_criticidad = self.criticidad_var.get()
+        # Actualizar el ID de la criticidad seleccionada
+        if selected_criticidad == "Baja":
+            self.id_criticidad_seleccionada = 1
+        elif selected_criticidad == "Media":
+            self.id_criticidad_seleccionada = 2
+        elif selected_criticidad == "Alta":
+            self.id_criticidad_seleccionada = 3
         else:
-            #Si se selecciona la opción predeterminada, establecemos el ID del tipo como None
-            self.id_tipo_tique_seleccionado = None
-            
-        print("ID de Tipo de Tique Seleccionada:", self.id_tipo_tique_seleccionado)
+            self.id_criticidad_seleccionada = None  # Opcional: Manejar el caso de "Seleciona Criticidad"
+
+        print("ID de la criticidad seleccionada:", self.id_criticidad_seleccionada)
+
+    def actualizar_id_tipo_tique(self, *args):
+        selected_tipo_tique = self.tipo_var.get()
+        # Actualizar el ID del tipo de tique seleccionado
+        if selected_tipo_tique == "Felicitación":
+            self.id_tipo_tique_seleccionado = 1
+        elif selected_tipo_tique == "Consulta":
+            self.id_tipo_tique_seleccionado = 2
+        elif selected_tipo_tique == "Reclamo":
+            self.id_tipo_tique_seleccionado = 3
+        elif selected_tipo_tique == "Problema":
+            self.id_tipo_tique_seleccionado = 4
+        else:
+            self.id_tipo_tique_seleccionado = None  # Opcional: Manejar el caso de "Seleciona El tipo de Tique"
+
+        print("ID del tipo de tique seleccionado:", self.id_tipo_tique_seleccionado)
 
     def registrar_tique(self):
         # Obtener los valores ingresados por el usuario
@@ -192,15 +168,15 @@ class RegistrarTiqueApp:
 
         # Crear un objeto de tipo Tique con la información ingresada
         tique = Tique(
-        id_tique=None,
-        detalle_servicio=detalle_servicio,
-        fecha_creacion=date.today(),
-        detalle_problema=detalle_problema,
-        area_id=self.id_area_seleccionada,
-        tipo_id=self.id_tipo_tique_seleccionado,
-        criticidad_id=self.id_criticidad_seleccionada,
-        cliente_id=None,
-        estado_id=1,
+            id_tique=None,
+            detalle_servicio=detalle_servicio,
+            fecha_creacion=date.today(),  # Utilizamos la fecha actual directamente
+            detalle_problema=detalle_problema,
+            area_id=self.id_area_seleccionada,
+            tipo_id=self.id_tipo_tique_seleccionado,
+            criticidad_id=self.id_criticidad_seleccionada,
+            cliente_id=None,
+            estado_id=1,
         )
 
         # Crear un objeto de tipo Cliente con la información ingresada
@@ -251,51 +227,25 @@ class RegistrarTiqueApp:
         # Llamar a la función del DAO para obtener los tiques del cliente con el RUT ingresado
         self.tiques_encontrados = self.dao.obtenerTiquesPorRutCliente(rut_cliente)
 
-        # Limpiar el treeview antes de mostrar los nuevos datos
-        self.treeview.delete(*self.treeview.get_children())
-
-        # Mostrar los datos en el treeview
-        for tique in self.tiques_encontrados:
-            nombre_area = self.dao.obtenerNombreArea(tique.area_id)
-            nombre_tipo = self.dao.obtenerNombreTipo(tique.tipo_id)
-            nombre_criticidad = self.dao.obtenerNombreCriticidad(tique.criticidad_id)
-            rut_cliente = self.dao.obtenerRUTCliente(tique.cliente_id)
-
-            # Insertar los datos en el treeview
-            self.treeview.insert("", "end", values=(tique.id_tique, tique.detalle_servicio, tique.fecha_creacion, nombre_area, nombre_tipo, nombre_criticidad, rut_cliente))
-
     def mostrar_tique_seleccionado(self, event):
+        # Obtener el índice del tique seleccionado en el treeview
         selected_item = self.treeview.focus()
         if selected_item:
-            selected_index = self.treeview.index(selected_item)
-            if selected_index is not None and 0 <= selected_index < len(self.tiques_encontrados):
-                tique_seleccionado = self.tiques_encontrados[selected_index]
-                # Resto del código para rellenar los campos con la información del tique seleccionado
-                self.rut_var.set(tique_seleccionado.cliente.rut)
-                self.nombre_cliente_var.set(tique_seleccionado.cliente.nombre_cliente)
+            index = int(selected_item.lstrip("I"))
+            tique_seleccionado = self.tiques_encontrados[index]
 
-                # Rellenar los campos con la información del tique seleccionado
-                self.rut_var.set(tique_seleccionado.cliente.rut)
-                self.nombre_cliente_var.set(tique_seleccionado.cliente.nombre_cliente)
-                self.telefono_var.set(tique_seleccionado.cliente.telefono)
-                self.correo_var.set(tique_seleccionado.cliente.correo_electronico)
-                self.tipo_var.set(self.dao.obtenerNombreTipo(tique_seleccionado.tipo_id))
-                self.criticidad_var.set(self.dao.obtenerNombreCriticidad(tique_seleccionado.criticidad_id))
-                self.detalle_servicio_var.set(tique_seleccionado.detalle_servicio)
-                self.detalle_problema_text.delete("1.0", tk.END)
-                self.detalle_problema_text.insert(tk.END, tique_seleccionado.detalle_problema)
-                self.area_var.set(self.dao.obtenerNombreArea(tique_seleccionado.area_id))
-            else:
-            # Si el índice no es válido o el tique no existe en la lista, limpiar los campos
-                self.rut_var.set("")
-                self.nombre_cliente_var.set("")
-                self.telefono_var.set("")
-                self.correo_var.set("")
-                self.tipo_var.set("")
-                self.criticidad_var.set("")
-                self.detalle_servicio_var.set("")
-                self.detalle_problema_text.delete("1.0", tk.END)
-                self.area_var.set("")
+            # Rellenar los campos con la información del tique seleccionado
+            self.rut_var.set(tique_seleccionado.cliente.rut)
+            self.nombre_cliente_var.set(tique_seleccionado.cliente.nombre_cliente)
+            self.telefono_var.set(tique_seleccionado.cliente.telefono)
+            self.correo_var.set(tique_seleccionado.cliente.correo_electronico)
+            self.tipo_var.set(self.dao.obtenerNombreTipo(tique_seleccionado.tipo_id))
+            self.criticidad_var.set(self.dao.obtenerNombreCriticidad(tique_seleccionado.criticidad_id))
+            self.detalle_servicio_var.set(tique_seleccionado.detalle_servicio)
+            self.detalle_problema_text.delete("1.0", tk.END)
+            self.detalle_problema_text.insert(tk.END, tique_seleccionado.detalle_problema)
+            self.area_var.set(self.dao.obtenerNombreArea(tique_seleccionado.area_id))
+
 
     def eliminar_tique(self):
     #Obtener el índice del tique seleccionado en el treeview
@@ -325,9 +275,13 @@ class RegistrarTiqueApp:
                 messagebox.showinfo(self.root, message = "El tique ha sido eliminado")
             else:
                 messagebox.showinfo(self.root, message="Se ha cancelado la acción de eliminar tique")
-    
+
 # Crear una instancia de Tkinter y la aplicación Registrar Tique
 if __name__ == '__main__':
     root = tk.Tk()
     app = RegistrarTiqueApp(root)
     root.mainloop()
+
+
+
+
