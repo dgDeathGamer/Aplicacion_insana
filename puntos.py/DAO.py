@@ -190,14 +190,19 @@ class DAO:
 
 
 
-    def verificar_credenciales(self, nombre: str, contraseña: str) -> bool:
+    def verificar_credenciales(self, nombre: str, contrasenia: str) -> Usuario:
         self.conectar()
         sql = "SELECT * FROM usuario WHERE Nombre_Usuario = %s AND Contrasenia = %s"
-        values = (nombre, contraseña)
+        values = (nombre, contrasenia)
         self.__cursor.execute(sql, values)
         resultado = self.__cursor.fetchone()
         self.cerrar()
-        return resultado is not None
+        if resultado:
+            # Crear un objeto Usuario con los datos obtenidos
+            id_usuario, nombre_usuario, contrasenia, rol_id = resultado
+            return Usuario(id_usuario=id_usuario, nombre_usuario=nombre_usuario, contrasenia=contrasenia, rol_id=rol_id)
+        else:
+            return None
     
     def obtenerNombreArea(self, id_area: int) -> str:
         self.conectar()

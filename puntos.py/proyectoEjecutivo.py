@@ -5,7 +5,7 @@ from Tique import Tique
 from Cliente import Cliente
 from datetime import date
 
-class RegistrarTiqueApp:
+class RegistrarTiqueAppEjecutivo:
     def __init__(self, root):
         self.root = root
         self.root.title("Registrar Tique")
@@ -90,8 +90,6 @@ class RegistrarTiqueApp:
 
         # Botón para registrar el tique
         tk.Button(frame, text="Registrar Tique", command=self.registrar_tique).grid(row=9, column=0, columnspan=4, padx=10, pady=10, sticky="ew")
-        # Botón para obtener la lista de tiques
-        tk.Button(frame, text="Obtener Tiques", command=self.obtener_tiques).grid(row=10, column=0, columnspan=4, padx=10, pady=10, sticky="ew")
 
         # Crear un treeview para mostrar los tiques
         columns = ("ID Tique", "Detalle Servicio", "Fecha Creación", "Área", "Tipo", "Criticidad", "Rut Cliente")
@@ -105,6 +103,8 @@ class RegistrarTiqueApp:
 
         # Configurar el evento para mostrar el tique seleccionado cuando se haga clic en un elemento del treeview
         self.treeview.bind("<ButtonRelease-1>", self.mostrar_tique_seleccionado)
+
+        self.obtener_tiques() 
 
     def actualizar_id_area(self, *args):
         selected_area = self.area_var.get()
@@ -199,6 +199,8 @@ class RegistrarTiqueApp:
         self.detalle_problema_text.delete("1.0", tk.END)  # Limpiar el contenido del Text
         self.area_var.set("")
 
+        self.obtener_tiques() 
+
     def obtener_tiques(self):
         # Llamar a la función del DAO para obtener los tiques
         lista_tiques = self.dao.obtenerTiques()
@@ -245,5 +247,5 @@ class RegistrarTiqueApp:
 # Crear una instancia de Tkinter y la aplicación Registrar Tique
 if __name__ == '__main__':
     root = tk.Tk()
-    app = RegistrarTiqueApp(root)
+    app = RegistrarTiqueAppEjecutivo(root)
     root.mainloop()

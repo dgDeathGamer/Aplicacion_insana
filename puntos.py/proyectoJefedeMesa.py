@@ -11,7 +11,7 @@ from Tipo import Tipo
 from tkinter import messagebox
 
 
-class RegistrarTiqueApp:
+class RegistrarTiqueAppJefeDeMesa:
     def __init__(self, root):
         self.root = root
         self.root.title("Registrar Tique")
@@ -128,8 +128,6 @@ class RegistrarTiqueApp:
 
         # Botón para registrar el tique
         tk.Button(frame, text="Registrar Tique", command=self.registrar_tique).grid(row=9, column=0, columnspan=4, padx=10, pady=10, sticky="ew")
-        # Botón para obtener la lista de tiques
-        tk.Button(frame, text="Obtener Tiques", command=self.obtener_tiques).grid(row=10, column=0, columnspan=4, padx=10, pady=10, sticky="ew")
 
         # Crear un treeview para mostrar los tiques-----------------------------------------------------------------------------------------------------------------------------
         columns = ("ID Tique","Nombre del Cliente","Rut Cliente","Correo Electrónico" ,"Detalle Servicio", "Fecha Creación", "Área", "Tipo", "Criticidad", "Teléfono")
@@ -530,5 +528,5 @@ class RegistrarTiqueApp:
 # Crear una instancia de Tkinter y la aplicación Registrar Tique
 if __name__ == '__main__':
     root = tk.Tk()
-    app = RegistrarTiqueApp(root)
+    app = RegistrarTiqueAppJefeDeMesa(root)
     root.mainloop()

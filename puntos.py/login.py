@@ -4,6 +4,8 @@ from DAO import DAO
 from Usuario import Usuario
 import os
 from proyecto import RegistrarTiqueApp
+from proyectoEjecutivo import RegistrarTiqueAppEjecutivo
+from proyectoJefedeMesa import RegistrarTiqueAppJefeDeMesa
 
 dao = DAO()
 ventana = tk.Tk()
@@ -57,6 +59,7 @@ def mostrar_formulario_registrar():
     # Botón para registrar un nuevo usuario
     btn_registrar = tk.Button(ventana, text="Registrar", command=lambda: registrar_usuario(entry_nombre.get(), entry_password.get(), combo_rol.get()))
     btn_registrar.pack(pady=10)
+    
 
 def mostrar_formulario_iniciar_sesion():
     global entry_nombre, entry_password
@@ -125,12 +128,22 @@ def iniciar_sesion(nombre, contrasenia):
         # Mostrar mensaje de éxito
         messagebox.showinfo("Inicio de sesión exitoso", "Bienvenido al sistema")
 
-        # Cerrar la ventana actual de inicio de sesión
         ventana.destroy()
 
-        root = tk.Tk()
-        app = RegistrarTiqueApp(root)
+        # Dependiendo del rol, iniciará la aplicación correspondiente
+        if usuario.rol_id == 1:
+            root = tk.Tk()
+            app = RegistrarTiqueApp(root)  #Esto cargara el proyecto.py
+        elif usuario.rol_id == 2:
+            root = tk.Tk()
+            app = RegistrarTiqueAppJefeDeMesa(root)  #Esto cargara el proyectoEjecutivo.py
+        elif usuario.rol_id == 3:
+            root = tk.Tk()
+            app = RegistrarTiqueAppEjecutivo(root)  #Esto cargara el proyectoJefeDeMes.py niti3
         root.mainloop()
+
+
+
     
     else:
         messagebox.showerror("Inicio de sesión fallido", "Credenciales incorrectas")
