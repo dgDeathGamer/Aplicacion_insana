@@ -4,6 +4,7 @@ from DAO import DAO
 from Tique import Tique
 from Cliente import Cliente
 from datetime import date
+from tkinter import messagebox
 
 class RegistrarTiqueAppEjecutivo:
     def __init__(self, root):
@@ -104,7 +105,10 @@ class RegistrarTiqueAppEjecutivo:
         # Configurar el evento para mostrar el tique seleccionado cuando se haga clic en un elemento del treeview
         self.treeview.bind("<ButtonRelease-1>", self.mostrar_tique_seleccionado)
 
-        self.obtener_tiques() 
+        # Botón para eliminar tique seleccionado
+        tk.Button(frame, text="Eliminar Tique", command=self.eliminar_tique).grid(row=12, column=0, padx=5, pady=5)
+
+        self.obtener_tiques()
 
     def actualizar_id_area(self, *args):
         selected_area = self.area_var.get()
@@ -213,10 +217,22 @@ class RegistrarTiqueAppEjecutivo:
             nombre_area = self.dao.obtenerNombreArea(tique.area_id)
             nombre_tipo = self.dao.obtenerNombreTipo(tique.tipo_id)
             nombre_criticidad = self.dao.obtenerNombreCriticidad(tique.criticidad_id)
-            rut_cliente = self.dao.obtenerRUTCliente(tique.cliente_id)
 
+            # Aquí accedemos a los datos del cliente asociado al tique, si existe
+            cliente = tique.cliente
+            if cliente:
+                nombre_cliente = cliente.nombre_cliente
+                telefono_cliente = cliente.telefono
+                correo_cliente = cliente.correo_electronico
+                rut = cliente.rut
+            else:
+                # Si no hay cliente asociado, mostrar "N/A" o cualquier otro valor predeterminado
+                nombre_cliente = "N/A"
+                telefono_cliente = "N/A"
+                correo_cliente = "N/A"
+                rut = "N/A"
             # Insertar los datos en el treeview
-            self.treeview.insert("", "end", values=(tique.id_tique, tique.detalle_servicio, tique.fecha_creacion, nombre_area, nombre_tipo, nombre_criticidad, rut_cliente))
+            self.treeview.insert("", "end", values=(tique.id_tique, nombre_cliente, telefono_cliente, correo_cliente, tique.detalle_servicio, tique.fecha_creacion, nombre_area, nombre_tipo, nombre_criticidad, rut))
 
     def buscar_tiques_por_rut(self):
         # Obtener el RUT ingresado por el usuario
@@ -243,6 +259,36 @@ class RegistrarTiqueAppEjecutivo:
             self.detalle_problema_text.delete("1.0", tk.END)
             self.detalle_problema_text.insert(tk.END, tique_seleccionado.detalle_problema)
             self.area_var.set(self.dao.obtenerNombreArea(tique_seleccionado.area_id))
+
+
+    def eliminar_tique(self):
+    #Obtener el índice del tique seleccionado en el treeview
+        selected_item = self.treeview.focus()
+        info_item = self.treeview.item(selected_item)
+        id_tiquet = info_item.get("values")[0]
+        print(id_tiquet)
+        if selected_item:
+            mensaje = messagebox.askyesno(self.root, message="¿Estas seguro que quieres eliminar este tique?")
+            if(mensaje == True):
+                # Llamar a la función del DAO para eliminar el tique de la base de datos
+                self.dao.eliminarTique(id_tiquet)
+
+                # Actualizar la lista de tiques en el treeview
+                self.obtener_tiques()
+
+                # Limpiar los campos después de eliminar el tique
+                self.rut_var.set("")
+                self.nombre_cliente_var.set("")
+                self.telefono_var.set("")
+                self.correo_var.set("")
+                self.tipo_var.set("")
+                self.criticidad_var.set("")
+                self.detalle_servicio_var.set("")
+                self.detalle_problema_text.delete("1.0", tk.END)
+                self.area_var.set("")
+                messagebox.showinfo(self.root, message = "El tique ha sido eliminado")
+            else:
+                messagebox.showinfo(self.root, message="Se ha cancelado la acción de eliminar tique")
 
 # Crear una instancia de Tkinter y la aplicación Registrar Tique
 if __name__ == '__main__':
