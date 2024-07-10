@@ -7,7 +7,27 @@ from datetime import date
 from tkinter import messagebox
 
 class RegistrarTiqueAppEjecutivo:
+    """
+    Clase para la aplicación de registro de tiques ejecutivo usando Tkinter.
+
+    Métodos:
+    - __init__(self, root): Constructor que inicializa la interfaz de usuario.
+    - actualizar_id_area(self, *args): Actualiza el ID del área seleccionada.
+    - actualizar_id_criticidad(self, *args): Actualiza el ID de la criticidad seleccionada.
+    - actualizar_id_tipo_tique(self, *args): Actualiza el ID del tipo de tique seleccionado.
+    - registrar_tique(self): Registra un nuevo tique y cliente en la base de datos.
+    - obtener_tiques(self): Obtiene todos los tiques de la base de datos y los muestra en un treeview.
+    - buscar_tiques_por_rut(self): Busca tiques en la base de datos por el RUT del cliente.
+    - mostrar_tique_seleccionado(self, event): Muestra la información del tique seleccionado en los campos.
+    - eliminar_tique(self): Elimina el tique seleccionado de la base de datos y actualiza la lista de tiques.
+    """
     def __init__(self, root):
+        """
+        Constructor de la clase RegistrarTiqueAppEjecutivo.
+
+        Parámetros:
+        - root (tk.Tk): Ventana principal de Tkinter donde se construye la aplicación.
+        """
         self.root = root
         self.root.title("Registrar Tique")
 
@@ -116,6 +136,12 @@ class RegistrarTiqueAppEjecutivo:
         self.obtener_tiques()
 
     def actualizar_id_area(self, *args):
+        """
+        Actualiza el ID del área seleccionada en base a la opción seleccionada en el menú desplegable.
+        
+        Parámetros:
+        - *args: Argumentos adicionales para el trace de la variable.
+        """
         selected_area = self.area_var.get()
         # Actualizar el ID del área seleccionada
         if selected_area == "Area 1":
@@ -130,6 +156,12 @@ class RegistrarTiqueAppEjecutivo:
         print("ID del área seleccionada:", self.id_area_seleccionada)
 
     def actualizar_id_criticidad(self, *args):
+        """
+        Actualiza el ID de la criticidad seleccionada en base a la opción seleccionada en el menú desplegable.
+        
+        Parámetros:
+        - *args: Argumentos adicionales para el trace de la variable.
+        """
         selected_criticidad = self.criticidad_var.get()
         # Actualizar el ID de la criticidad seleccionada
         if selected_criticidad == "Baja":
@@ -144,6 +176,12 @@ class RegistrarTiqueAppEjecutivo:
         print("ID de la criticidad seleccionada:", self.id_criticidad_seleccionada)
 
     def actualizar_id_tipo_tique(self, *args):
+        """
+        Actualiza el ID del tipo de tique seleccionado en base a la opción seleccionada en el menú desplegable.
+        
+        Parámetros:
+        - *args: Argumentos adicionales para el trace de la variable.
+        """
         selected_tipo_tique = self.tipo_var.get()
         # Actualizar el ID del tipo de tique seleccionado
         if selected_tipo_tique == "Felicitación":
@@ -160,6 +198,9 @@ class RegistrarTiqueAppEjecutivo:
         print("ID del tipo de tique seleccionado:", self.id_tipo_tique_seleccionado)
 
     def registrar_tique(self):
+        """
+        Registra un nuevo tique y cliente en la base de datos utilizando los valores ingresados por el usuario.
+        """
         # Obtener los valores ingresados por el usuario
         rut = self.rut_var.get()
         nombre_cliente = self.nombre_cliente_var.get()
@@ -211,6 +252,9 @@ class RegistrarTiqueAppEjecutivo:
         self.obtener_tiques() 
 
     def obtener_tiques(self):
+        """
+        Obtiene todos los tiques de la base de datos y los muestra en un treeview.
+        """
         # Llamar a la función del DAO para obtener los tiques
         lista_tiques = self.dao.obtenerTiques()
 
@@ -240,6 +284,9 @@ class RegistrarTiqueAppEjecutivo:
             self.treeview.insert("", "end", values=(tique.id_tique, nombre_cliente, telefono_cliente, correo_cliente, tique.detalle_servicio, tique.fecha_creacion, nombre_area, nombre_tipo, nombre_criticidad, rut))
 
     def buscar_tiques_por_rut(self):
+        """
+        Busca tiques en la base de datos por el RUT del cliente ingresado por el usuario.
+        """
         # Obtener el RUT ingresado por el usuario
         rut_cliente = self.rut_cliente_var.get()
 
@@ -247,6 +294,12 @@ class RegistrarTiqueAppEjecutivo:
         self.tiques_encontrados = self.dao.obtenerTiquesPorRutCliente(rut_cliente)
 
     def mostrar_tique_seleccionado(self, event):
+        """
+        Muestra la información del tique seleccionado en los campos de entrada y menús desplegables.
+        
+        Parámetros:
+        - event (tk.Event): Evento que desencadena la llamada a la función (clic en el treeview).
+        """
         # Obtener el índice del tique seleccionado en el treeview
         selected_item = self.treeview.focus()
         if selected_item:
@@ -267,7 +320,10 @@ class RegistrarTiqueAppEjecutivo:
 
 
     def eliminar_tique(self):
-    #Obtener el índice del tique seleccionado en el treeview
+        """
+        Elimina el tique seleccionado de la base de datos y actualiza la lista de tiques en el treeview.
+        """
+        #Obtener el índice del tique seleccionado en el treeview
         selected_item = self.treeview.focus()
         info_item = self.treeview.item(selected_item)
         id_tiquet = info_item.get("values")[0]
