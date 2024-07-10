@@ -135,9 +135,15 @@ class RegistrarTiqueAppJefeDeMesa:
         for col in columns:
             self.treeview.heading(col, text=col)
         self.treeview.grid(row=11, column=0, columnspan=4, padx=10, pady=10, sticky="nsew")
+
+        # Agregar scrollbar horizontal
+        scrollbar = ttk.Scrollbar(frame, orient="horizontal", command=self.treeview.xview)
+        scrollbar.grid(row=12, column=0, columnspan=4, sticky="ew")
+        self.treeview.configure(xscrollcommand=scrollbar.set)
+
         #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
         # Botón para buscar tiques por RUT
-        tk.Button(frame, text="Buscar Tique por Rut", command=self.buscar_tiques_por_rut).grid(row=12, column=2, padx=5, pady=5)
+        tk.Button(frame, text="Buscar Tique por Rut", command=self.buscar_tiques_por_rut).grid(row=13, column=2, padx=5, pady=5)
         # Agregar un botón para crear un área
         tk.Button(frame, text="Crear Área", command=self.mostrar_dialogo_crear_area).grid(row=10, column=2, padx=5, pady=5, sticky="ew")
         
@@ -158,7 +164,7 @@ class RegistrarTiqueAppJefeDeMesa:
 
 
         # Botón para eliminar tique seleccionado
-        tk.Button(frame, text="Eliminar Tique", command=self.eliminar_tique).grid(row=12, column=0, padx=5, pady=5)
+        tk.Button(frame, text="Eliminar Tique", command=self.eliminar_tique).grid(row=13, column=0, padx=5, pady=5)
 
         self.obtener_tiques()
 
