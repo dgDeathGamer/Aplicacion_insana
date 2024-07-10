@@ -93,14 +93,19 @@ class RegistrarTiqueApp:
         tk.Button(frame, text="Registrar Tique", command=self.registrar_tique).grid(row=9, column=0, columnspan=4, padx=10, pady=10, sticky="ew")
 
         # Crear un treeview para mostrar los tiques
-        columns = ("ID Tique", "Detalle Servicio", "Fecha Creación", "Área", "Tipo", "Criticidad", "Rut Cliente")
+        columns = ("ID Tique","Nombre del Cliente","Rut Cliente","Correo Electrónico" ,"Detalle Servicio", "Fecha Creación", "Área", "Tipo", "Criticidad", "Teléfono")
         self.treeview = ttk.Treeview(frame, columns=columns, show="headings")
         for col in columns:
             self.treeview.heading(col, text=col)
         self.treeview.grid(row=11, column=0, columnspan=4, padx=10, pady=10, sticky="nsew")
 
+        # Agregar scrollbar horizontal
+        scrollbar = ttk.Scrollbar(frame, orient="horizontal", command=self.treeview.xview)
+        scrollbar.grid(row=12, column=0, columnspan=4, sticky="ew")
+        self.treeview.configure(xscrollcommand=scrollbar.set)
+
         # Botón para buscar tiques por RUT
-        tk.Button(frame, text="Buscar Tique por Rut", command=self.buscar_tiques_por_rut).grid(row=12, column=2, padx=5, pady=5)
+        tk.Button(frame, text="Buscar Tique por Rut", command=self.buscar_tiques_por_rut).grid(row=13                                                                     , column=2, padx=5, pady=5)
 
         # Configurar el evento para mostrar el tique seleccionado cuando se haga clic en un elemento del treeview
         self.treeview.bind("<ButtonRelease-1>", self.mostrar_tique_seleccionado)
