@@ -13,6 +13,12 @@ from tkinter import messagebox
 
 class RegistrarTiqueAppJefeDeMesa:
     def __init__(self, root):
+        """
+        Inicializa la aplicación de registro de tique.
+
+        Args:
+            root (tk.Tk): La raíz de la aplicación Tkinter.
+        """
         self.root = root
         self.root.title("Registrar Tique")
 
@@ -169,6 +175,12 @@ class RegistrarTiqueAppJefeDeMesa:
         self.obtener_tiques()
 
     def actualizar_id_area(self, *args):
+        """
+        Actualiza el ID del área seleccionada según la opción elegida en el menú desplegable.
+
+        Args:
+            *args: Argumentos adicionales (no se utilizan).
+        """
         selected_area = self.area_var.get()
 
         # Si el área seleccionada no es la opción predeterminada, buscamos el objeto Area correspondiente en la lista de áreas
@@ -189,6 +201,12 @@ class RegistrarTiqueAppJefeDeMesa:
         print("ID de Área seleccionada:", self.id_area_seleccionada)
 
     def actualizar_id_criticidad(self, *args):
+        """
+        Actualiza el ID de la criticidad seleccionada según la opción elegida en el menú desplegable.
+
+        Args:
+            *args: Argumentos adicionales (no se utilizan).
+        """
         selected_criticidad = self.criticidad_var.get()
     
         # Si la criticidad seleccionada no es la opcion predeterminada, buscamos el objeto criticidad correspondiente en la lista de criticidades
@@ -209,6 +227,12 @@ class RegistrarTiqueAppJefeDeMesa:
         print("ID de Criticidad seleccionada:", self.id_criticidad_seleccionada)
 
     def actualizar_id_tipo(self, *args):
+        """
+        Actualiza el ID del tipo de tique seleccionado según la opción elegida en el menú desplegable.
+
+        Args:
+            *args: Argumentos adicionales (no se utilizan).
+        """
         selected_tipo = self.tipo_var.get()
         
         # Si el tipo seleccionada no es la opción predeterminada, buscamos el objeto Tipo correspondiente en la lista de tipos
@@ -229,6 +253,12 @@ class RegistrarTiqueAppJefeDeMesa:
         print("ID de Tipo de Tique Seleccionada:", self.id_tipo_tique_seleccionado)
 
     def registrar_tique(self):
+        """
+        Registra un nuevo tique utilizando la información ingresada por el usuario.
+
+        Se utiliza la instancia del DAO para registrar el tique en la base de datos.
+
+        """
         # Obtener los valores ingresados por el usuario
         rut = self.rut_var.get()
         nombre_cliente = self.nombre_cliente_var.get()
@@ -280,6 +310,11 @@ class RegistrarTiqueAppJefeDeMesa:
         self.obtener_tiques()
 
     def obtener_tiques(self):
+        """
+        Obtiene todos los tiques de la base de datos y los muestra en el treeview.
+
+        Utiliza la instancia del DAO para obtener los tiques y luego los muestra en el treeview de la interfaz gráfica.
+        """
         # Llamar a la función del DAO para obtener los tiques
         lista_tiques = self.dao.obtenerTiques()
 
@@ -310,6 +345,11 @@ class RegistrarTiqueAppJefeDeMesa:
 
 
     def buscar_tiques_por_rut(self):
+        """
+        Busca tiques en la base de datos por el RUT del cliente ingresado.
+
+        Utiliza la instancia del DAO para buscar tiques asociados a un cliente específico según su RUT.
+        """
         # Obtener el RUT ingresado por el usuario
         rut_cliente = self.rut_cliente_var.get()
 
@@ -326,6 +366,12 @@ class RegistrarTiqueAppJefeDeMesa:
             menu.add_command(label=area[1], command=lambda a=area[1]: self.area_var.set(a))
 
     def mostrar_tique_seleccionado(self, event):
+        """
+        Muestra la información del tique seleccionado en el treeview en los campos de entrada correspondientes.
+
+        Args:
+            event (tk.Event): El evento que activa la función (clic en el treeview).
+        """
         # Obtener el índice del tique seleccionado en el treeview
         selected_item = self.treeview.focus()
         if selected_item:
@@ -348,6 +394,11 @@ class RegistrarTiqueAppJefeDeMesa:
     
     
     def actualizar_menu_tipos_tique(self):
+        """
+        Actualiza el menú desplegable de tipos de tique con los tipos de tique disponibles en la base de datos.
+
+        Utiliza la instancia del DAO para obtener los tipos de tique y actualizar el menú desplegable.
+        """
         # Obtener todos los tipos de tique desde el DAO
         dao = DAO()
         tipos_tique = dao.obtenerTipos()
@@ -364,6 +415,11 @@ class RegistrarTiqueAppJefeDeMesa:
 
 
     def actualizar_menu_criticidades(self):
+        """
+        Actualiza el menú desplegable de criticidades con las criticidades disponibles en la base de datos.
+
+        Utiliza la instancia del DAO para obtener las criticidades y actualizar el menú desplegable.
+        """
         # Obtener todas las criticidades desde el DAO
         dao = DAO()
         criticidades = dao.obtenerCriticidades()
@@ -381,6 +437,11 @@ class RegistrarTiqueAppJefeDeMesa:
             
             
     def actualizar_menu_areas(self):
+        """
+        Actualiza el menú desplegable de áreas con las áreas disponibles en la base de datos.
+
+        Utiliza la instancia del DAO para obtener las áreas y actualizar el menú desplegable.
+        """
         # Obtener todas las áreas desde la base de datos
         dao = DAO()
         areas = dao.obtenerAreas()
@@ -398,6 +459,11 @@ class RegistrarTiqueAppJefeDeMesa:
     #-------------------------------------------------------------------------------------------------------  
         
     def crear_area(self):
+        """
+        Crea un nuevo área en la base de datos utilizando el nombre ingresado por el usuario.
+
+        Utiliza la instancia del DAO para crear el área en la base de datos.
+        """
         # Obtener el nombre del área ingresado por el usuario
         nombre_area = self.nuevo_nombre_area.get()
 
@@ -420,6 +486,11 @@ class RegistrarTiqueAppJefeDeMesa:
 
 
     def mostrar_dialogo_crear_area(self):
+        """
+        Muestra un diálogo para que el usuario ingrese el nombre del área a crear.
+
+        Llama al método `crear_area` para procesar la creación del área con el nombre ingresado por el usuario.
+        """
         # Crear un diálogo para ingresar el nombre del área
         dialogo = tk.Toplevel(self.root)
         dialogo.title("Crear Área")
@@ -431,6 +502,11 @@ class RegistrarTiqueAppJefeDeMesa:
         
         
     def crear_tipo_tique(self):
+        """
+        Crea un nuevo tipo de tique en la base de datos utilizando el nombre ingresado por el usuario.
+
+        Utiliza la instancia del DAO para crear el tipo de tique en la base de datos.
+        """
         # Obtener el nombre del tipo de tique ingresado por el usuario
         nombre_tipo_tique = self.nuevo_nombre_tipo_tique.get()
 
@@ -452,6 +528,11 @@ class RegistrarTiqueAppJefeDeMesa:
          
             
     def mostrar_dialogo_crear_tipo_tique(self):
+        """
+        Muestra un diálogo para que el usuario ingrese el nombre del tipo de tique a crear.
+
+        Llama al método `crear_tipo_tique` para procesar la creación del tipo de tique con el nombre ingresado por el usuario.
+        """
         # Crear un diálogo para ingresar el nombre del tipo de tique
         dialogo = tk.Toplevel(self.root)
         dialogo.title("Crear Tipo de Tique")
@@ -464,6 +545,11 @@ class RegistrarTiqueAppJefeDeMesa:
         
         
     def crear_criticidad(self):
+        """
+        Crea una nueva criticidad en la base de datos utilizando el nombre ingresado por el usuario.
+
+        Utiliza la instancia del DAO para crear la criticidad en la base de datos.
+        """
         # Obtener el nombre de la criticidad ingresado por el usuario
         nombre_criticidad = self.nuevo_nombre_criticidad.get()
 
@@ -486,6 +572,11 @@ class RegistrarTiqueAppJefeDeMesa:
             
             
     def mostrar_dialogo_crear_criticidad(self):
+        """
+        Muestra un diálogo para que el usuario ingrese el nombre de la criticidad a crear.
+
+        Llama al método `crear_criticidad` para procesar la creación de la criticidad con el nombre ingresado por el usuario.
+        """
         # Crear un diálogo para ingresar el nombre de la criticidad
         dialogo = tk.Toplevel(self.root)
         dialogo.title("Crear Criticidad")
@@ -497,7 +588,12 @@ class RegistrarTiqueAppJefeDeMesa:
     
 
     def eliminar_tique(self):
-    #Obtener el índice del tique seleccionado en el treeview
+        """
+        Elimina el tique seleccionado de la base de datos.
+
+        Utiliza la instancia del DAO para eliminar el tique seleccionado de la base de datos.
+        """
+        #Obtener el índice del tique seleccionado en el treeview
         selected_item = self.treeview.focus()
         info_item = self.treeview.item(selected_item)
         id_tiquet = info_item.get("values")[0]

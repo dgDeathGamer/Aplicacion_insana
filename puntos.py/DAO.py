@@ -1,4 +1,13 @@
 # pip install mysql-connector-python
+"""
+DAO (Data Access Object) para interactuar con la base de datos MySQL.
+
+Requiere:
+- mysql-connector-python: para instalar, usar `pip install mysql-connector-python`.
+- credenciales: módulo que contiene las credenciales para la conexión a la base de datos.
+- Tique, Cliente, Usuario, Area, Criticidad, Estado, Tipo: clases de objetos que representan entidades en la base de datos.
+
+"""
 import mysql.connector
 import credenciales
 from Tique import Tique
@@ -11,17 +20,28 @@ from Tipo import Tipo
 
 class DAO:
     def __init__(self):
+        """Inicializa una instancia de DAO."""
         pass
     
     def conectar(self):
+        """Establece la conexión a la base de datos y crea el cursor."""
         self.__conexion = mysql.connector.connect(**credenciales.get_credenciales())
         self.__cursor = self.__conexion.cursor()
 
     def cerrar(self):
+        """Cierra la conexión a la base de datos después de hacer commit."""
+
         self.__conexion.commit()
         self.__conexion.close()
 
     def registrarTique(self, tique: Tique, cliente: Cliente):
+        """
+        Registra un tique en la base de datos, verificando si el cliente ya existe.
+        
+        Parámetros:
+            tique (Tique): El objeto Tique a registrar.
+            cliente (Cliente): El objeto Cliente asociado al tique.
+        """
         self.conectar()
         
         # Primero, verificamos si el cliente ya existe en la base de datos
@@ -63,6 +83,12 @@ class DAO:
 
 
     def obtenerTiques(self):
+        """
+        Obtiene todos los tiques de la base de datos.
+
+        Retorna:
+            list: Una lista de objetos Tique.
+        """
         self.conectar()
         sql_tiques = "SELECT * FROM tique"
         self.__cursor.execute(sql_tiques)
@@ -105,6 +131,15 @@ class DAO:
 
 
     def obtenerTique(self, id_tique: int):
+        """
+        Obtiene un tique específico por su ID.
+
+        Parámetros:
+            id_tique (int): El ID del tique a obtener.
+        
+        Retorna:
+            Tique: El objeto Tique obtenido de la base de datos.
+        """
         self.conectar()
         sql = "SELECT * FROM tique WHERE id_tique = %s"
         values = (id_tique,)
@@ -131,6 +166,12 @@ class DAO:
         return None
 
     def eliminarTique(self, id_tique):
+        """
+        Elimina un tique de la base de datos por su ID.
+
+        Parámetros:
+            id_tique (int): El ID del tique a eliminar.
+        """
         self.conectar()
         try:
             # Crear la consulta para eliminar el tique con el ID proporcionado
@@ -148,6 +189,12 @@ class DAO:
             self.cerrar()
 
     def actualizarTique(self, tique: Tique):
+        """
+        Actualiza un tique en la base de datos.
+
+        Parámetros:
+            tique (Tique): El objeto Tique con los datos actualizados.
+        """
         self.conectar()
         sql = "UPDATE tique SET nombre_cliente=%s, rut_cliente=%s, telefono_cliente=%s, correo_cliente=%s, tipo_tique=%s, criticidad=%s, detalle_servicio=%s, detalle_problema=%s, area_id=%s, tipo_id=%s, cliente_id=%s, estado_id=%s WHERE id_tique=%s"
         values = (
@@ -168,6 +215,12 @@ class DAO:
         self.__cursor.execute(sql, values)
         self.cerrar()
     def registrar_usuario(self, usuario: Usuario):
+        """
+        Registra un nuevo usuario en la base de datos.
+
+        Parámetros:
+            usuario (Usuario): El objeto Usuario a registrar.
+        """
         self.conectar()
 
         # Consultar si el rol_id existe en la tabla de roles
@@ -191,6 +244,15 @@ class DAO:
 
 
     def verificar_credenciales(self, nombre: str, contrasenia: str) -> Usuario:
+        """
+        Obtiene el nombre del área a partir de su ID.
+
+        Parámetros:
+            id_area (int): El ID del área.
+
+        Retorna:
+            str: El nombre del área si se encuentra, de lo contrario, "Desconocida".
+        """
         self.conectar()
         sql = "SELECT * FROM usuario WHERE Nombre_Usuario = %s AND Contrasenia = %s"
         values = (nombre, contrasenia)
@@ -205,6 +267,15 @@ class DAO:
             return None
     
     def obtenerNombreArea(self, id_area: int) -> str:
+        """
+        Obtiene el nombre del tipo a partir de su ID.
+
+        Parámetros:
+            id_tipo (int): El ID del tipo.
+
+        Retorna:
+            str: El nombre del tipo si se encuentra, de lo contrario, "Desconocido".
+        """
         self.conectar()
         sql = "SELECT Nombre_Area FROM area WHERE ID_Area = %s"
         values = (id_area,)
@@ -214,6 +285,15 @@ class DAO:
         return nombre_area[0] if nombre_area else "Desconocida"
     
     def obtenerNombreTipo(self, id_tipo: int) -> str:
+        """
+        Obtiene el RUT del cliente a partir de su ID.
+
+        Parámetros:
+            cliente_id: El ID del cliente.
+
+        Retorna:
+            str: El RUT del cliente si se encuentra, de lo contrario, None.
+        """
         self.conectar()
         sql = "SELECT Nombre_Tipo FROM tipo WHERE ID_Tipo = %s"
         values = (id_tipo,)
@@ -223,6 +303,15 @@ class DAO:
         return nombre_tipo[0] if nombre_tipo else "Desconocido"
     
     def obtenerRUTCliente(self, cliente_id):
+        """
+        Obtiene el nombre de la criticidad a partir de su ID.
+
+        Parámetros:
+            id_criticidad (int): El ID de la criticidad.
+
+        Retorna:
+            str: El nombre de la criticidad si se encuentra, de lo contrario, "Desconocida".
+        """
         self.conectar()
         # Realizar la consulta para obtener el RUT del cliente a partir de su ID
         sql = "SELECT rut FROM Cliente WHERE id_cliente = %s"
@@ -236,6 +325,12 @@ class DAO:
         else:
             return None
     def obtenerNombreCriticidad(self, id_criticidad: int) -> str:
+        """
+        Obtiene todas las criticidades de la base de datos.
+
+        Retorna:
+            list: Una lista de objetos Criticidad.
+        """
         self.conectar()
         sql = "SELECT Nombre_Criticidad FROM criticidad WHERE ID_Criticidad = %s"
         values = (id_criticidad,)
@@ -247,6 +342,12 @@ class DAO:
 
 
     def obtenerCriticidades(self):
+        """
+        Obtiene todas las áreas de la base de datos.
+
+        Retorna:
+            list: Una lista de objetos Area.
+        """
         self.conectar()
 
         query = "SELECT ID_Criticidad, Nombre_Criticidad FROM criticidad"
@@ -258,6 +359,12 @@ class DAO:
         return criticidades
     
     def obtenerAreas(self):
+        """
+        Obtiene todos los tipos de la base de datos.
+
+        Retorna:
+            list: Una lista de objetos Tipo.
+        """
         self.conectar()
 
         query = "SELECT ID_Area, Nombre_Area FROM area"
@@ -269,6 +376,15 @@ class DAO:
         return areas
     
     def obtenerTipos(self):
+        """
+        Obtiene todos los tiques de un cliente por su RUT.
+
+        Parámetros:
+            rut (str): El RUT del cliente.
+
+        Retorna:
+            list: Una lista de objetos Tique asociados al cliente.
+        """
         self.conectar()
 
         query = "SELECT ID_Tipo, Nombre_Tipo FROM tipo"
@@ -282,6 +398,15 @@ class DAO:
     
     
     def obtenerTiquesPorRutCliente(self, rut):
+        """
+        Crea un área nueva en la base de datos si no existe.
+
+        Parámetros:
+            nombre_area (str): El nombre del área a crear.
+
+        Retorna:
+            Area: El objeto Area recién creado, de lo contrario, None si el área ya existe.
+        """
         self.conectar()
         # Implementa la consulta SQL para obtener los tiques del cliente con el RUT especificado
         sql = "SELECT t.* FROM tique t INNER JOIN cliente c ON t.cliente_id = c.id_cliente WHERE c.rut = %s"
@@ -306,6 +431,15 @@ class DAO:
         return lista_tiques
 
     def crearArea(self, nombre_area: str):
+        """
+        Crea un tipo de tique nuevo en la base de datos si no existe.
+
+        Parámetros:
+            nombre_tipo (str): El nombre del tipo de tique a crear.
+
+        Retorna:
+            Tipo: El objeto Tipo recién creado, de lo contrario, None si el tipo de tique ya existe.
+        """
         self.conectar()
 
         # Verificar si el área ya existe en la base de datos
@@ -336,6 +470,12 @@ class DAO:
     
     
     def obtenerAreas(self):
+        """
+        Obtiene todas las áreas almacenadas en la base de datos.
+
+        Retorna:
+            list: Una lista de objetos de tipo Area, donde cada objeto representa un área con su ID y nombre.
+        """
         self.conectar()
 
         query = "SELECT ID_Area, Nombre_Area FROM area"
@@ -348,6 +488,15 @@ class DAO:
 
 
     def crearTipoTique(self, nombre_tipo: str):
+        """
+        Crea una criticidad nueva en la base de datos si no existe.
+
+        Parámetros:
+            nombre_criticidad (str): El nombre de la criticidad a crear.
+
+        Retorna:
+            Criticidad: El objeto Criticidad recién creado, de lo contrario, None si la criticidad ya existe.
+        """
         self.conectar()
 
         # Verificar si el tipo de tique ya existe en la base de datos
@@ -379,6 +528,15 @@ class DAO:
 
 
     def crearCriticidad(self, nombre_criticidad: str):
+        """
+        Crea una criticidad nueva en la base de datos si no existe.
+
+        Parámetros:
+            nombre_criticidad (str): El nombre de la criticidad a crear.
+
+        Retorna:
+            Criticidad: El objeto Criticidad recién creado, de lo contrario, None si la criticidad ya existe.
+        """
         self.conectar()
 
         # Verificar si la criticidad ya existe en la base de datos
