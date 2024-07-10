@@ -7,15 +7,19 @@ class Estado:
         nombre_estado (str): Nombre descriptivo del estado.
 
     Methods:
-        get_id_estado():
+        __init__(self, id_estado, nombre_estado):
+            Inicializa una nueva instancia de Estado.
+
+        get_id_estado(self):
             Devuelve el ID del estado.
-        
-        get_nombre_estado():
+
+        get_nombre_estado(self):
             Devuelve el nombre del estado.
-        
-        set_nombre_estado(nombre_estado):
+
+        set_nombre_estado(self, nombre_estado):
             Establece un nuevo nombre para el estado.
     """
+
     def __init__(self, id_estado, nombre_estado):
         """
         Inicializa una nueva instancia de Estado.
@@ -29,7 +33,7 @@ class Estado:
 
     def get_id_estado(self):
         """
-        Obtiene el ID del estado.
+        Devuelve el ID del estado.
 
         Returns:
             int: ID del estado.
@@ -38,7 +42,7 @@ class Estado:
 
     def get_nombre_estado(self):
         """
-        Obtiene el nombre del estado.
+        Devuelve el nombre del estado.
 
         Returns:
             str: Nombre del estado.

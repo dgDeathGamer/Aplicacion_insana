@@ -12,7 +12,63 @@ class Tique:
         criticidad_id (int): ID de la criticidad del tique.
         cliente_id (int): ID del cliente asociado al tique.
         estado_id (int): ID del estado actual del tique.
+
+    Methods:
+        __init__(id_tique, detalle_servicio, fecha_creacion, detalle_problema, area_id, tipo_id, criticidad_id, cliente_id, estado_id):
+            Inicializa un objeto de tipo Tique.
+
+        get_id_tique():
+            Obtiene el ID del tique.
+
+        get_detalle_servicio():
+            Obtiene el detalle del servicio asociado al tique.
+
+        get_fecha_creacion():
+            Obtiene la fecha de creación del tique.
+
+        get_detalle_problema():
+            Obtiene el detalle del problema reportado en el tique.
+
+        get_area_id():
+            Obtiene el ID del área asociada al tique.
+
+        get_tipo_id():
+            Obtiene el ID del tipo de tique.
+
+        get_criticidad_id():
+            Obtiene el ID de la criticidad del tique.
+
+        get_cliente_id():
+            Obtiene el ID del cliente asociado al tique.
+
+        get_estado_id():
+            Obtiene el ID del estado actual del tique.
+
+        set_detalle_servicio(detalle_servicio):
+            Actualiza el detalle del servicio asociado al tique.
+
+        set_fecha_creacion(fecha_creacion):
+            Actualiza la fecha de creación del tique.
+
+        set_detalle_problema(detalle_problema):
+            Actualiza el detalle del problema reportado en el tique.
+
+        set_area_id(area_id):
+            Actualiza el ID del área asociada al tique.
+
+        set_tipo_id(tipo_id):
+            Actualiza el ID del tipo de tique.
+
+        set_criticidad_id(criticidad_id):
+            Actualiza el ID de la criticidad del tique.
+
+        set_cliente_id(cliente_id):
+            Actualiza el ID del cliente asociado al tique.
+
+        set_estado_id(estado_id):
+            Actualiza el ID del estado actual del tique.
     """
+
     def __init__(self, id_tique, detalle_servicio, fecha_creacion, detalle_problema, area_id, tipo_id, criticidad_id, cliente_id, estado_id):
         """
         Inicializa un objeto de tipo Tique.
@@ -190,4 +246,3 @@ class Tique:
             estado_id (int): Nuevo ID del estado.
         """
         self.estado_id = estado_id
-

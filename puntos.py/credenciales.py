@@ -4,16 +4,15 @@ def get_credenciales():
 
     Returns:
         dict: Diccionario con las siguientes credenciales:
-            - 'host': Dirección del host de la base de datos (localhost en este caso).
-            - 'user': Usuario de la base de datos (root en este caso).
-            - 'password': Contraseña de acceso a la base de datos (cadena vacía en este caso).
-            - 'database': Nombre de la base de datos a la que se desea conectar (sistema2 en este caso).
+            - 'host' (str): Dirección del host de la base de datos (sql10.freesqldatabase.com en este caso).
+            - 'user' (str): Usuario de la base de datos (sql10718780 en este caso).
+            - 'password' (str): Contraseña de acceso a la base de datos (yrxnDNiUiR en este caso).
+            - 'database' (str): Nombre de la base de datos a la que se desea conectar (sql10718780 en este caso).
     """
-    credenciales={
-        'host' : 'sql10.freesqldatabase.com',
-        'user' : 'sql10718780',
-        'password' : 'yrxnDNiUiR',
-        'database' : 'sql10718780',
-       # 'port' : '3306'
+    credenciales = {
+        'host': 'sql10.freesqldatabase.com',
+        'user': 'sql10718780',
+        'password': 'yrxnDNiUiR',
+        'database': 'sql10718780',
     }
     return credenciales

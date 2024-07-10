@@ -11,6 +11,7 @@ Módulos necesarios:
 - os: Utilizado para operaciones de sistema (no usado explícitamente en este script).
 - proyecto, proyectoEjecutivo, proyectoJefedeMesa: Importa las aplicaciones específicas según el rol del usuario.
 """
+
 import tkinter as tk
 from tkinter import ttk, messagebox
 from DAO import DAO
@@ -175,26 +176,20 @@ def iniciar_sesion(nombre, contrasenia):
         # Dependiendo del rol, iniciará la aplicación correspondiente
         if usuario.rol_id == 1:
             root = tk.Tk()
-            app = RegistrarTiqueApp(root)  #Esto cargara el proyecto.py
+            app = RegistrarTiqueApp(root)  # Esto cargará el proyecto.py
         elif usuario.rol_id == 2:
             root = tk.Tk()
-            app = RegistrarTiqueAppJefeDeMesa(root)  #Esto cargara el proyectoEjecutivo.py
+            app = RegistrarTiqueAppJefeDeMesa(root)  # Esto cargará el proyectoEjecutivo.py
         elif usuario.rol_id == 3:
             root = tk.Tk()
-            app = RegistrarTiqueAppEjecutivo(root)  #Esto cargara el proyectoJefeDeMes.py niti3
+            app = RegistrarTiqueAppEjecutivo(root)  # Esto cargará el proyectoJefeDeMes.py
         root.mainloop()
-
-
-
-    
     else:
         messagebox.showerror("Inicio de sesión fallido", "Credenciales incorrectas")
 
     # Limpiar los campos de entrada
     entry_nombre.delete(0, "end")
     entry_password.delete(0, "end")
-
-
 
 # Mostrar las opciones al iniciar la aplicación
 mostrar_opciones()

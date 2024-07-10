@@ -7,18 +7,19 @@ class Area:
         nombre_area (str): Nombre del área.
 
     Methods:
-        __init__(self, id_area, nombre_area):
+        __init__(id_area, nombre_area):
             Inicializa una nueva instancia de Area con el ID y nombre especificados.
-        
-        get_id_area(self):
+
+        get_id_area():
             Retorna el identificador del área.
-        
-        get_nombre_area(self):
+
+        get_nombre_area():
             Retorna el nombre del área.
-        
-        set_nombre_area(self, nombre_area):
+
+        set_nombre_area(nombre_area):
             Establece el nombre del área.
     """
+
     def __init__(self, id_area, nombre_area):
         """
         Inicializa una nueva instancia de Area con el ID y nombre especificados.

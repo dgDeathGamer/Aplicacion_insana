@@ -7,12 +7,15 @@ class Criticidad:
         nombre_criticidad (str): Nombre descriptivo de la criticidad.
 
     Methods:
+        __init__(self, id_criticidad, nombre_criticidad):
+            Inicializa una nueva instancia de la clase Criticidad.
+
         get_id_criticidad(self):
             Retorna el identificador de la criticidad.
-        
+
         get_nombre_criticidad(self):
             Retorna el nombre de la criticidad.
-        
+
         set_nombre_criticidad(self, nombre_criticidad):
             Actualiza el nombre de la criticidad con el valor proporcionado.
     """

@@ -7,6 +7,22 @@ class Usuario:
         nombre_usuario (str): Nombre de usuario.
         contrasenia (str): Contraseña del usuario.
         rol_id (int): ID del rol asociado al usuario.
+
+    Methods:
+        __init__(id_usuario, nombre_usuario, contrasenia, rol_id):
+            Inicializa un objeto de tipo Usuario.
+
+        get_id_usuario():
+            Obtiene el ID del usuario.
+
+        get_nombre_usuario():
+            Obtiene el nombre de usuario.
+
+        get_contrasenia():
+            Obtiene la contraseña del usuario.
+
+        get_rol_id():
+            Obtiene el ID del rol asociado al usuario.
     """
 
     def __init__(self, id_usuario, nombre_usuario, contrasenia, rol_id):

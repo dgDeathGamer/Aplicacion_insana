@@ -6,7 +6,6 @@ Requiere:
 - mysql-connector-python: para instalar, usar `pip install mysql-connector-python`.
 - credenciales: módulo que contiene las credenciales para la conexión a la base de datos.
 - Tique, Cliente, Usuario, Area, Criticidad, Estado, Tipo: clases de objetos que representan entidades en la base de datos.
-
 """
 import mysql.connector
 import credenciales
@@ -19,6 +18,70 @@ from Estado import Estado
 from Tipo import Tipo
 
 class DAO:
+    """
+    Clase DAO para interactuar con la base de datos MySQL y realizar operaciones CRUD.
+
+    Métodos:
+        conectar():
+            Establece la conexión a la base de datos y crea el cursor.
+
+        cerrar():
+            Cierra la conexión a la base de datos después de hacer commit.
+
+        registrarTique(tique: Tique, cliente: Cliente):
+            Registra un tique en la base de datos, verificando si el cliente ya existe.
+
+        obtenerTiques() -> list:
+            Obtiene todos los tiques de la base de datos.
+
+        obtenerTique(id_tique: int) -> Tique:
+            Obtiene un tique específico por su ID.
+
+        eliminarTique(id_tique: int):
+            Elimina un tique de la base de datos por su ID.
+
+        actualizarTique(tique: Tique):
+            Actualiza un tique en la base de datos.
+
+        registrar_usuario(usuario: Usuario):
+            Registra un nuevo usuario en la base de datos.
+
+        verificar_credenciales(nombre: str, contrasenia: str) -> Usuario:
+            Verifica las credenciales de un usuario en la base de datos.
+
+        obtenerNombreArea(id_area: int) -> str:
+            Obtiene el nombre del área a partir de su ID.
+
+        obtenerNombreTipo(id_tipo: int) -> str:
+            Obtiene el nombre del tipo a partir de su ID.
+
+        obtenerRUTCliente(cliente_id) -> str:
+            Obtiene el RUT del cliente a partir de su ID.
+
+        obtenerNombreCriticidad(id_criticidad: int) -> str:
+            Obtiene el nombre de la criticidad a partir de su ID.
+
+        obtenerCriticidades() -> list:
+            Obtiene todas las criticidades de la base de datos.
+
+        obtenerAreas() -> list:
+            Obtiene todas las áreas de la base de datos.
+
+        obtenerTipos() -> list:
+            Obtiene todos los tipos de tiques de la base de datos.
+
+        obtenerTiquesPorRutCliente(rut: str) -> list:
+            Obtiene todos los tiques de un cliente por su RUT.
+
+        crearArea(nombre_area: str) -> Area:
+            Crea un área nueva en la base de datos si no existe.
+
+        crearTipoTique(nombre_tipo: str) -> Tipo:
+            Crea un tipo de tique nuevo en la base de datos si no existe.
+
+        crearCriticidad(nombre_criticidad: str) -> Criticidad:
+            Crea una criticidad nueva en la base de datos si no existe.
+    """
     def __init__(self):
         """Inicializa una instancia de DAO."""
         pass

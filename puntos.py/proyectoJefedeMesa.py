@@ -1,3 +1,7 @@
+"""
+Esta clase implementa una aplicación para el registro y gestión de tiques.
+Utiliza Tkinter para la interfaz gráfica y se comunica con una base de datos a través de un objeto DAO.
+"""
 import tkinter as tk
 from tkinter import ttk
 from DAO import DAO
@@ -179,7 +183,7 @@ class RegistrarTiqueAppJefeDeMesa:
         Actualiza el ID del área seleccionada según la opción elegida en el menú desplegable.
 
         Args:
-            *args: Argumentos adicionales (no se utilizan).
+            *args: Argumentos adicionales.
         """
         selected_area = self.area_var.get()
 
@@ -205,7 +209,7 @@ class RegistrarTiqueAppJefeDeMesa:
         Actualiza el ID de la criticidad seleccionada según la opción elegida en el menú desplegable.
 
         Args:
-            *args: Argumentos adicionales (no se utilizan).
+            *args: Argumentos adicionales.
         """
         selected_criticidad = self.criticidad_var.get()
     
@@ -231,7 +235,7 @@ class RegistrarTiqueAppJefeDeMesa:
         Actualiza el ID del tipo de tique seleccionado según la opción elegida en el menú desplegable.
 
         Args:
-            *args: Argumentos adicionales (no se utilizan).
+            *args: Argumentos adicionales.
         """
         selected_tipo = self.tipo_var.get()
         

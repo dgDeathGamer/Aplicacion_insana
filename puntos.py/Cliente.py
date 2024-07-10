@@ -11,42 +11,43 @@ class Cliente:
         usuario_id (int): Identificador del usuario asociado al cliente.
 
     Methods:
-        __init__(self, id_cliente, nombre_cliente, rut, correo_electronico, telefono, usuario_id):
+        __init__(id_cliente, nombre_cliente, rut, correo_electronico, telefono, usuario_id):
             Inicializa una nueva instancia de Cliente con los atributos especificados.
-        
-        get_id_cliente(self):
+
+        get_id_cliente():
             Retorna el identificador del cliente.
-        
-        get_nombre_cliente(self):
+
+        get_nombre_cliente():
             Retorna el nombre del cliente.
-        
-        get_rut(self):
+
+        get_rut():
             Retorna el RUT del cliente.
-        
-        get_correo_electronico(self):
+
+        get_correo_electronico():
             Retorna el correo electrónico del cliente.
-        
-        get_telefono(self):
+
+        get_telefono():
             Retorna el número de teléfono del cliente.
-        
-        get_usuario_id(self):
+
+        get_usuario_id():
             Retorna el identificador del usuario asociado al cliente.
-        
-        set_nombre_cliente(self, nombre_cliente):
+
+        set_nombre_cliente(nombre_cliente):
             Establece el nombre del cliente.
-        
-        set_rut(self, rut):
+
+        set_rut(rut):
             Establece el RUT del cliente.
-        
-        set_correo_electronico(self, correo_electronico):
+
+        set_correo_electronico(correo_electronico):
             Establece el correo electrónico del cliente.
-        
-        set_telefono(self, telefono):
+
+        set_telefono(telefono):
             Establece el número de teléfono del cliente.
-        
-        set_usuario_id(self, usuario_id):
+
+        set_usuario_id(usuario_id):
             Establece el identificador del usuario asociado al cliente.
     """
+
     def __init__(self, id_cliente, nombre_cliente, rut, correo_electronico, telefono, usuario_id):
         """
         Inicializa una nueva instancia de Cliente con los atributos especificados.

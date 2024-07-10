@@ -5,6 +5,19 @@ class Rol:
     Attributes:
         id_rol (int): ID único del rol.
         nombre_rol (str): Nombre del rol.
+
+    Methods:
+        __init__(id_rol, nombre_rol):
+            Inicializa un objeto de tipo Rol.
+
+        get_id_rol():
+            Obtiene el ID del rol.
+
+        get_nombre_rol():
+            Obtiene el nombre del rol.
+
+        set_nombre_rol(nombre_rol):
+            Actualiza el nombre del rol.
     """
 
     def __init__(self, id_rol, nombre_rol):
@@ -44,4 +57,3 @@ class Rol:
             nombre_rol (str): Nuevo nombre del rol.
         """
         self.nombre_rol = nombre_rol
-

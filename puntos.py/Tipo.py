@@ -5,7 +5,21 @@ class Tipo:
     Attributes:
         id_tipo (int): ID único del tipo de tique.
         nombre_tipo (str): Nombre del tipo de tique.
+
+    Methods:
+        __init__(id_tipo, nombre_tipo):
+            Inicializa un objeto de tipo Tipo.
+
+        get_id_tipo():
+            Obtiene el ID del tipo de tique.
+
+        get_nombre_tipo():
+            Obtiene el nombre del tipo de tique.
+
+        set_nombre_tipo(nombre_tipo):
+            Actualiza el nombre del tipo de tique.
     """
+
     def __init__(self, id_tipo, nombre_tipo):
         """
         Inicializa un objeto de tipo Tipo.
