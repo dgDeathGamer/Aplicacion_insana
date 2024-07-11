@@ -81,6 +81,10 @@ def mostrar_formulario_registrar():
     # Botón para registrar un nuevo usuario
     btn_registrar = tk.Button(ventana, text="Registrar", command=lambda: registrar_usuario(entry_nombre.get(), entry_password.get(), combo_rol.get()))
     btn_registrar.pack(pady=10)
+
+    # Botón para volver a las opciones principales
+    btn_volver = tk.Button(ventana, text="Volver", command=volver_a_opciones)
+    btn_volver.pack(pady=5)
     
 
 def mostrar_formulario_iniciar_sesion():
@@ -107,12 +111,23 @@ def mostrar_formulario_iniciar_sesion():
     btn_iniciar_sesion = tk.Button(ventana, text="Iniciar Sesión", command=lambda: iniciar_sesion(entry_nombre.get(), entry_password.get()))
     btn_iniciar_sesion.pack(pady=10)
 
+    # Botón para volver a las opciones
+    btn_volver = tk.Button(ventana, text="Volver", command=volver_a_opciones)
+    btn_volver.pack(pady=5)
+
 def limpiar_ventana():
     """
     Limpia todos los widgets en la ventana.
     """
     for widget in ventana.winfo_children():
         widget.pack_forget()
+
+def volver_a_opciones():
+    """
+    Vuelve a mostrar las opciones iniciales de registrar o iniciar sesión.
+    """
+    limpiar_ventana()
+    mostrar_opciones()
 
 def registrar_usuario(nombre, contrasenia, rol_elegido):
     """
@@ -150,6 +165,7 @@ def registrar_usuario(nombre, contrasenia, rol_elegido):
     messagebox.showinfo("Registro exitoso", "El usuario ha sido registrado correctamente")
 
     # Volver a mostrar las opciones para que el usuario pueda decidir si quiere registrar o iniciar sesión nuevamente
+    limpiar_ventana()
     mostrar_opciones()
 
 def iniciar_sesion(nombre, contrasenia):

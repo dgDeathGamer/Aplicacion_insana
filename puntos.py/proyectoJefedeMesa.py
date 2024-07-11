@@ -152,8 +152,7 @@ class RegistrarTiqueAppJefeDeMesa:
         self.treeview.configure(xscrollcommand=scrollbar.set)
 
         #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        # Botón para buscar tiques por RUT
-        tk.Button(frame, text="Buscar Tique por Rut", command=self.buscar_tiques_por_rut).grid(row=13, column=2, padx=5, pady=5)
+        
         # Agregar un botón para crear un área
         tk.Button(frame, text="Crear Área", command=self.mostrar_dialogo_crear_area).grid(row=10, column=2, padx=5, pady=5, sticky="ew")
         
